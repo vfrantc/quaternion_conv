@@ -22,12 +22,12 @@ def get_colors(arr):
 
 if __name__ == '__main__':
     print('***REAL****')
-    input = np.array([[[0.6, 0.5, 0.6], [0.6, 0.5, 0.6], [1.0, 0.5, 0.5]],
-                      [[0.6, 0.8, 1.0], [1.0, 0.8, 0.6], [0.8, 0.9, 0.5]],
+    input = np.array([[[0.6, 0.8, 1.0],
+                       [1.0, 0.8, 0.6],
+                       [0.8, 0.9, 0.5]],
                       [[0.5, 0.6, 0.7], [0.6, 0.5, 0.6], [1.0, 0.5, 0.5]],
                       [[0.2, 0.2, 0.2], [0.5, 0.5, 0.5], [0.8, 0.8, 0.8]]])
-    kernel = np.array([[[0.5, 0.5, 0.5], [0.6, 0.5, 0.6], [1.0, 0.5, 0.5]],
-                       [[0, 1, 0], [0, 1, 0], [0, 1, 0]],
+    kernel = np.array([[[0, 1, 0], [0, 1, 0], [0, 1, 0]],
                        [[0, 1, 0], [1, 1, 1], [0, 1, 0]],
                        [[0.5, 1, 0.5], [0.6, 0, 0.6], [1.0, 0.5, 0.5]]])
 
@@ -43,13 +43,13 @@ if __name__ == '__main__':
     print('***Quaternion****')
 
 
-    input = np.array([[np.quaternion(0.6, 0.6, 0.5, 0.2), np.quaternion(0.5, 0.8, 0.6, 0.2), np.quaternion(0.6, 1.0, 0.7, 0.2)],
-                      [np.quaternion(0.6, 1.0, 0.6, 0.5), np.quaternion(0.5, 0.8, 0.5, 0.5), np.quaternion(0.6, 0.6, 0.6, 0.5)],
-                      [np.quaternion(1.0, 0.8, 1.0, 0.8), np.quaternion(0.5, 0.9, 0.5, 0.8), np.quaternion(0.5, 0.5, 0.5, 0.8)]])
+    input = np.array([[np.quaternion(0.0, 0.6, 0.5, 0.2), np.quaternion(0.0, 0.8, 0.6, 0.2), np.quaternion(0.0, 1.0, 0.7, 0.2)],
+                      [np.quaternion(0.0, 1.0, 0.6, 0.5), np.quaternion(0.0, 0.8, 0.5, 0.5), np.quaternion(0.0, 0.6, 0.6, 0.5)],
+                      [np.quaternion(0.0, 0.8, 1.0, 0.8), np.quaternion(0.0, 0.9, 0.5, 0.8), np.quaternion(0.0, 0.5, 0.5, 0.8)]])
 
-    kernel = np.array([[np.quaternion(0.5, 0, 0, 0.5), np.quaternion(0.5, 1, 1, 1), np.quaternion(0.5, 0, 0, 0.5)],
-                       [np.quaternion(0.6, 0, 1, 0.6), np.quaternion(0.5, 1, 1, 0), np.quaternion(0.6, 0, 1, 0.6)],
-                       [np.quaternion(1.0, 0, 0, 1.0), np.quaternion(0.5, 1, 1, 0.5), np.quaternion(0.5, 0, 0, 0.5)]])
+    kernel = np.array([[np.quaternion(0.0, 0, 0, 0.5), np.quaternion(0.0, 1, 1, 1), np.quaternion(0.0, 0, 0, 0.5)],
+                       [np.quaternion(0.0, 0, 1, 0.6), np.quaternion(0.0, 1, 1, 0), np.quaternion(0.0, 0, 1, 0.6)],
+                       [np.quaternion(1.0, 0, 0, 1.0), np.quaternion(0.0, 1, 1, 0.5), np.quaternion(0.0, 0, 0, 0.5)]])
 
 
 
