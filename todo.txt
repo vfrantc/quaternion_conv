@@ -1,0 +1,28 @@
+Thursday:
+1. + Implement display of the tanh function and show the singularities
+2. + Convert crelu/zrelu/modrelu to quaternion and fix two axis
+3. + Display phase information without fft
+5. Make training of identical real/quaternion networks and use tsne to visualize features
+11. Make comparsion decision boundary: real/non-linear/quaternion/spin
+6. Finish drawing of the conventional/quaternion convolutional: example
+7. Finish drawing of the quaternion/real fully-connected
+8. Finish drawing of the general convolution illustration
+9. Make illustration for normalization: stats and training results
+10. Make illustration for random initialization: just training
+
+Friday:
+12. Make a slide with comparison of fully-connected
+13. Make 3 slides with comparison of convolutions
+14. Make slide with batch-norm
+15. Make slide with initialization
+16. Make slide with phase information
+17. Make slide with table of non-linear/quaternion/spin
+18. Make slide with decision boundaries
+19. Make table of loss-functions
+20. Make slide with visualization of loss functions
+21. Make slide with negative sides of real
+
+Saturday:
+Write 4 pages
+
+Sunday
