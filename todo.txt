@@ -1,5 +1,7 @@
-1. Figure out how to make that graph of
-2. Make training of identical real/quaternion networks and use tsne to visualize features
-3. Make illustration for normalization: stats and training results
-4. Make illustration for random initialization: just training
-5. Make comparsion decision boundary: real/non-linear/quaternion/spin
+Make training of identical real/quaternion networks and use tsne to visualize features
+
+Make training of quaternion networks with Make illustration for random initialization: just training
+Make comparsion decision boundary: real/non-linear/quaternion/spin
+Make comparsion decision boundary: real/non-linear/quaternion/spin
+Make illustration for normalization draw points and ellipsis
+
