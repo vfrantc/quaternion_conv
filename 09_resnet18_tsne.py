@@ -110,4 +110,106 @@ for epoch in range(start_epoch, start_epoch+200):
     test(epoch)
     scheduler.step()
 
+# Analyze features
+modules = list(net.children())[:-1]
+net = nn.Sequential(*modules)
+for p in net.parameters():
+    p.requires_grad = False
+
+import matplotlib.pyplot as plt
+from sklearn import manifold, datasets
+from time import time
+
+
+t0 = time()
+tsne = manifold.TSNE(
+    n_components=n_components,
+    init="random",
+    random_state=0,
+    perplexity=perplexity,
+    n_iter=300,
+)
+Y = tsne.fit_transform(X)
+t1 = time()
+print("circles, perplexity=%d in %.2g sec" % (perplexity, t1 - t0))
+ax.set_title("Perplexity=%d" % perplexity)
+ax.scatter(Y[red, 0], Y[red, 1], c="r")
+ax.scatter(Y[green, 0], Y[green, 1], c="g")
+ax.xaxis.set_major_formatter(NullFormatter())
+ax.yaxis.set_major_formatter(NullFormatter())
+ax.axis("tight")
+
+# Another example using s-curve
+X, color = datasets.make_s_curve(n_samples, random_state=0)
+
+ax = subplots[1][0]
+ax.scatter(X[:, 0], X[:, 2], c=color)
+ax.xaxis.set_major_formatter(NullFormatter())
+ax.yaxis.set_major_formatter(NullFormatter())
+
+for i, perplexity in enumerate(perplexities):
+    ax = subplots[1][i + 1]
+
+    t0 = time()
+    tsne = manifold.TSNE(
+        n_components=n_components,
+        init="random",
+        random_state=0,
+        perplexity=perplexity,
+        learning_rate="auto",
+        n_iter=300,
+    )
+    Y = tsne.fit_transform(X)
+    t1 = time()
+    print("S-curve, perplexity=%d in %.2g sec" % (perplexity, t1 - t0))
+
+    ax.set_title("Perplexity=%d" % perplexity)
+    ax.scatter(Y[:, 0], Y[:, 1], c=color)
+    ax.xaxis.set_major_formatter(NullFormatter())
+    ax.yaxis.set_major_formatter(NullFormatter())
+    ax.axis("tight")
+
+
+# Another example using a 2D uniform grid
+x = np.linspace(0, 1, int(np.sqrt(n_samples)))
+xx, yy = np.meshgrid(x, x)
+X = np.hstack(
+    [
+        xx.ravel().reshape(-1, 1),
+        yy.ravel().reshape(-1, 1),
+    ]
+)
+color = xx.ravel()
+ax = subplots[2][0]
+ax.scatter(X[:, 0], X[:, 1], c=color)
+ax.xaxis.set_major_formatter(NullFormatter())
+ax.yaxis.set_major_formatter(NullFormatter())
+
+for i, perplexity in enumerate(perplexities):
+    ax = subplots[2][i + 1]
+
+    t0 = time()
+    tsne = manifold.TSNE(
+        n_components=n_components,
+        init="random",
+        random_state=0,
+        perplexity=perplexity,
+        n_iter=400,
+    )
+    Y = tsne.fit_transform(X)
+    t1 = time()
+    print("uniform grid, perplexity=%d in %.2g sec" % (perplexity, t1 - t0))
+
+    ax.set_title("Perplexity=%d" % perplexity)
+    ax.scatter(Y[:, 0], Y[:, 1], c=color)
+    ax.xaxis.set_major_formatter(NullFormatter())
+    ax.yaxis.set_major_formatter(NullFormatter())
+    ax.axis("tight")
+
+
+plt.show()
+y = net(torch.randn(1, 3, 32, 32))
+y = F.avg_pool2d(y, 4)
+y = y.view(y.size(0), -1)
+print(y.size())
 # compute and store t-sne

@@ -2,6 +2,7 @@ from .ops import get_r, get_i, get_j, get_k
 from .ops import get_normalized, get_modulus
 from .ops import check_input
 
+from .base import QuaternionLinear
 from .base import QuaternionConv
 from .base import QuaternionTransposeConv
 

@@ -129,4 +129,15 @@ def test():
     y = net(torch.randn(1, 3, 32, 32))
     print(y.size())
 
+
 # test()
+if __name__ == '__main__':
+    net = ResNet18()
+    modules = list(net.children())[:-1]
+    net = nn.Sequential(*modules)
+    for p in net.parameters():
+        p.requires_grad = False
+    y = net(torch.randn(1, 3, 32, 32))
+    y = F.avg_pool2d(y, 4)
+    y = y.view(y.size(0), -1)
+    print(y.size())

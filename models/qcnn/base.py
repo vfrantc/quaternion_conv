@@ -114,7 +114,6 @@ class QuaternionConv(nn.Module):
                  scale=False):
 
         super(QuaternionConv, self).__init__()
-
         assert in_channels >= 4
 
         self.in_channels = in_channels // 4
