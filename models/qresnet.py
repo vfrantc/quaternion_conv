@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from qcnn import QuaternionConv
-from qcnn import QuaternionLinear
-from qcnn import QuaternionBatchNorm2d
+from .qcnn import QuaternionConv
+from .qcnn import QuaternionLinear
+from .qcnn import QuaternionBatchNorm2d
 
 class QBasicBlock(nn.Module):
     expansion = 1
