@@ -1,7 +1,18 @@
-Make training of identical real/quaternion networks and use tsne to visualize features
+1. Visualize the image arithmetic on example images, including hamiltonian product
+2. Polar coordinates, add to discription and add images
+3. Redo activation functions on images
+4. Adapt those images from the complex case to the quaternion one
+5. Redo that image of the perceptron
+6. Add table on the applications, networks: LSTM | Transformer | Hybrid - Table????
+7. Make training of identical real/quaternion networks and use tsne to visualize features
+8. Make training of quaternion networks with Make illustration for random initialization: just training
+5. Make comparsion decision boundary: real/non-linear/quaternion/spin
+0. Make a graph to visualize batch normalization
 
-Make training of quaternion networks with Make illustration for random initialization: just training
-Make comparsion decision boundary: real/non-linear/quaternion/spin
-Make comparsion decision boundary: real/non-linear/quaternion/spin
-Make illustration for normalization draw points and ellipsis
 
+Mon: Writing
+Tue: Presentation
+Wed: That paper that I need to submit
+Thursday: Polish writing
+Friday: classes, and finish everything for the week.
+Results: application for the exam, draft of the survey paper,

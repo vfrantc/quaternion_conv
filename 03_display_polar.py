@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     # read the image
     eps = np.finfo(np.float32).eps
-    image = cv2.imread('lena.png')
+    image = cv2.imread('gc-exterior-AI-3200x1800.jpg')
     image = image.astype(np.float32) / 255
     h, w = image.shape[:2]
 
