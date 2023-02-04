@@ -1,3 +1,4 @@
+import cv2
 import math
 import numpy as np
 import quaternion
@@ -40,7 +41,6 @@ def construct_quaternion_array(a, b, c, d):
             out[y, x] = np.quaternion(a[y, x], b[y, x], c[y, x], d[y, x])
     return out
 
-
 def tanh(arr):
     h, w = arr.shape
     out = np.zeros((h, w), dtype=np.quaternion)
@@ -63,6 +63,13 @@ def f(a, b):
             out[y, x] = np.quaternion(relu(el.real), relu(el.x), relu(el.y), relu(el.z)).abs()
     return out
 
+
+def imsave(fname, img):
+    img = img - img.min()
+    img = img / img.max()
+    img = img * 255
+    img = img.astype(np.uint8)
+    cv2.imwrite(fname, img)
 
 if __name__ == '__main__':
     x = np.linspace(-3, 3, 100)
@@ -89,3 +96,11 @@ if __name__ == '__main__':
                 orientation='landscape')
 
     plt.show()
+
+
+    # apply the activation function
+    img = cv2.imread('gc-exterior-AI-3200x1800.jpg')
+    img = cv2.resize(img, (400, 300))
+    img = img.astype(np.float32) / 255 - 0.5
+    img = relu(img)
+    imsave('figs/activation_relu.png', img)

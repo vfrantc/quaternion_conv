@@ -1,3 +1,4 @@
+import cv2
 import math
 import numpy as np
 import quaternion
@@ -97,6 +98,13 @@ def f(a, b):
                 out[y, x] = mag
     return out
 
+def imsave(fname, img):
+    img = img - img.min()
+    img = img / img.max()
+    img = img * 255
+    img = img.astype(np.uint8)
+    cv2.imwrite(fname, img)
+
 
 if __name__ == '__main__':
     x = np.linspace(-2, 2, 100)
@@ -123,3 +131,31 @@ if __name__ == '__main__':
                 orientation='landscape')
 
     plt.show()
+
+    img = cv2.imread('gc-exterior-AI-3200x1800.jpg')
+    img = cv2.resize(img, (400, 300))
+    img = img.astype(np.float32) / 255 - 0.5
+    h, w = img.shape[:2]
+    out = np.zeros((h, w, 3), dtype=np.float32)
+    for y in range(h):
+        for x in range(w):
+            q0 = 0.0
+            q1 = img[y, x, 0]
+            q2 = img[y, x, 1]
+            q3 = img[y, x, 2]
+            mag = np.sqrt(q0 ** 2 + q1 ** 2 + q2 ** 2 + q3 ** 2)
+            n_phi = 2 * (q2 * q3 + q0 * q1)
+            d_phi = q0 ** 2 - q1 ** 2 + q2 ** 2 - q3 ** 2
+            n_theta = 2 * (q1 * q3 + q0 * q2)
+            d_theta = q0 ** 2 + q1 ** 2 - q2 ** 2 - q3 ** 2
+            n_ksi = 2 * (q1 * q2 + q0 * q3)
+            phi = np.arctan2(n_phi, d_phi)
+            theta = np.arctan2(n_theta, d_theta)
+            ksi = np.arcsin(n_ksi)
+
+            if (phi > 0) and (phi < np.pi / 2) and (theta > 0) and (theta < np.pi / 2) and (ksi > 0) and (ksi < np.pi / 2):
+                out[y, x] = 0
+            else:
+                out[y, x] = img[y, x]
+
+    imsave('figs/activation_zrelu.png', out)

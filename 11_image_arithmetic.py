@@ -28,11 +28,19 @@ def deconstruct_quaternion_array(qarr):
     q3 = np.zeros((h, w), dtype=np.float32)
     for y in range(h):
         for x in range(w):
-            q0[y,x] = ;
-            q1[y,x] = ;
-            q2[y,x] = ;
-            q3[y,x] = ;
-    return
+            q0[y,x] = qarr[y, x].w
+            q1[y,x] = qarr[y, x].x
+            q2[y,x] = qarr[y, x].y
+            q3[y,x] = qarr[y, x].z
+    return q0, q1, q2, q3
+
+
+def imsave(fname, img):
+    img = img - img.min()
+    img = img / img.max()
+    img = img * 255
+    img = img.astype(np.uint8)
+    cv2.imwrite(fname, img)
 
 if __name__ == '__main__':
     img1 = cv2.imread('gc-exterior-AI-3200x1800.jpg')
@@ -57,6 +65,12 @@ if __name__ == '__main__':
     img_neg_255 = (img1_neg * 255).astype(np.uint8)
     cv2.imwrite('figs/alg_conj.png', img_neg_255)
 
+
+    img3 = -img1
+    imsave('figs/alg_img1_conj_q1.png', img3[:, :, 0])
+    imsave('figs/alg_img1_conj_q2.png', img3[:, :, 1])
+    imsave('figs/alg_img1_conj_q3.png', img3[:, :, 2])
+
     # abs
     image = img1.copy()
     q1 = image[:, :, 0]
@@ -68,9 +82,30 @@ if __name__ == '__main__':
     mag = (mag * 255).astype(np.uint8)
     cv2.imwrite('figs/alg_absolute_value.png', mag)
 
+    imsave('figs/alg_img1_q1.png', img1[:, :, 0])
+    imsave('figs/alg_img1_q2.png', img1[:, :, 1])
+    imsave('figs/alg_img1_q3.png', img1[:, :, 2])
+
+    imsave('figs/alg_img2_q1.png', img2[:, :, 0])
+    imsave('figs/alg_img2_q2.png', img2[:, :, 1])
+    imsave('figs/alg_img2_q3.png', img2[:, :, 2])
+
+    # multiplication
+    img = img1 * img2
+    imsave('figs/alg_img_q0.png', img[:, :, 0])
+    imsave('figs/alg_img_q1.png', img[:, :, 1])
+    imsave('figs/alg_img_q2.png', img[:, :, 2])
+
     # hamiltonian product
     qimg1 = construct_quaternion_array(a=None, b=img1[:, :, 0], c=img1[:, :, 1], d=img1[:, :, 2])
     qimg2 = construct_quaternion_array(a=None, b=img2[:, :, 0], c=img2[:, :, 1], d=img2[:, :, 2])
     qimg_mul = qimg1 * qimg2
+    q0, q1, q2, q3 = deconstruct_quaternion_array(qimg_mul)
+    mag = np.sqrt(q0**2 + q1**2 + q2**2 + q3**2)
+    imsave('figs/alg_hamilton_magnitude.png', mag)
+    imsave('figs/alg_hamilton_q0.png', q0)
+    imsave('figs/alg_hamilton_q1.png', q1)
+    imsave('figs/alg_hamilton_q2.png', q2)
+    imsave('figs/alg_hamilton_q3.png', q3)
 
-    print(qimg_mul)
+

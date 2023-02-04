@@ -1,3 +1,4 @@
+import cv2
 import math
 import numpy as np
 import quaternion
@@ -91,6 +92,12 @@ def f(a, b):
             out[y, x] = res.abs()
     return out
 
+def imsave(fname, img):
+    img = img - img.min()
+    img = img / img.max()
+    img = img * 255
+    img = img.astype(np.uint8)
+    cv2.imwrite(fname, img)
 
 if __name__ == '__main__':
     x = np.linspace(-2, 2, 100)
@@ -117,3 +124,39 @@ if __name__ == '__main__':
                 orientation='landscape')
 
     plt.show()
+
+    img = cv2.imread('gc-exterior-AI-3200x1800.jpg')
+    img = cv2.resize(img, (400, 300))
+    img = img.astype(np.float32) / 255 - 0.5
+    h, w = img.shape[:2]
+    out = np.zeros((h, w, 4), dtype=np.float32)
+    for y in range(h):
+        for x in range(w):
+            q0 = 0.0
+            q1 = img[y, x, 0]
+            q2 = img[y, x, 1]
+            q3 = img[y, x, 2]
+            mag = np.sqrt(q0 ** 2 + q1 ** 2 + q2 ** 2 + q3 ** 2)
+            n_phi = 2 * (q2 * q3 + q0 * q1)
+            d_phi = q0 ** 2 - q1 ** 2 + q2 ** 2 - q3 ** 2
+            n_theta = 2 * (q1 * q3 + q0 * q2)
+            d_theta = q0 ** 2 + q1 ** 2 - q2 ** 2 - q3 ** 2
+            n_ksi = 2 * (q1 * q2 + q0 * q3)
+
+            phi = np.arctan2(n_phi, d_phi)
+            theta = np.arctan2(n_theta, d_theta)
+            ksi = np.arcsin(n_ksi)
+            radius = 1.0
+
+            res = relu(mag + radius) * np.exp(np.quaternion(0, 1, 0, 0) * phi) * np.exp(np.quaternion(0, 0, 1, 0) * theta) * np.exp(np.quaternion(0, 0, 0, 1)*ksi)
+            out[y, x, 0] = res.w
+            out[y, x, 1] = res.x
+            out[y, x, 2] = res.y
+            out[y, x, 3] = res.z
+
+    imsave('figs/activation_modrelu_q0.png', out[:, :, 0])
+    imsave('figs/activation_modrelu_q1.png', out[:, :, 1])
+    imsave('figs/activation_modrelu_q2.png', out[:, :, 2])
+    imsave('figs/activation_modrelu_q3.png', out[:, :, 3])
+    imsave('figs/activation_modrelu.png', out[:, :, 1:])
+
